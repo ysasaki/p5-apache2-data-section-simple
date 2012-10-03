@@ -1,0 +1,25 @@
+Apache2-Data-Section-Simple version 0.01
+========================================
+
+Data::Section::Simple for ModPerl::Registry
+
+INSTALLATION
+
+To install this module type the following:
+
+   git checkout https://github.com/ysasaki/p5-apache2-data-section-simple.git
+   cd p5-apache2-data-section-simple
+   cpanm .
+
+DEPENDENCIES
+
+This module requires these other modules and libraries:
+
+  Apache2::RequestUtil
+
+COPYRIGHT AND LICENCE
+
+Copyright (C) 2012 Yoshihiro Sasaki
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself.
