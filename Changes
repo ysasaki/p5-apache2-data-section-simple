@@ -1,5 +1,9 @@
 Revision history for Perl extension Apache2::Data::Section::Simple.
 
+0.02  Thu Oct  4 12:32:43 JST 2012
+    - Add tests
+    - Refactor some codes
+
 0.01  Thu Oct  4 00:55:10 JST 2012
 	- original version; created by h2xs 1.23 with options
 		-AX -b 5.10.0 -n Apache2::Data::Section::Simple

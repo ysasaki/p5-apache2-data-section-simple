@@ -14,4 +14,13 @@ WriteMakefile(
         'Test::MockObject'      => 0,
         'Data::Section::Simple' => 0,
     },
+    META_MERGE     => {
+        resources => {
+            license => 'http://dev.perl.org/licenses/',
+            bugtracker =>
+                'https://github.com/ysasaki/p5-apache2-data-section-simple/issues',
+            repository => 'git://github.com/ysasaki/p5-apache2-data-section-simple.git',
+        },
+        release_status => 'unstable',
+    },
 );

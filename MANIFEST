@@ -1,6 +1,7 @@
 Changes
 lib/Apache2/Data/Section/Simple.pm
-Makefile.PL
 MANIFEST			This list of files
+MANIFEST.SKIP
 README
-t/Apache2-Data-Section-Simple.t
+t/000_compile.t
+t/001_get_data_section.t

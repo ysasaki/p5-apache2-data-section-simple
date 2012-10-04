@@ -13,7 +13,7 @@ sub new {
     my($class, $pkg) = @_;
     bless {
         r       => Apache2::RequestUtil->request,
-        content => undef
+        all     => undef,
     }, $class;
 }
  
@@ -22,30 +22,40 @@ sub get_data_section {
  
     if (@_) {
         return $self->get_data_section->{$_[0]};
-    } else {
-        my $filename = $self->{r}->filename;
-        my $content  = $self->{content};
-
-        unless ($content) {
-            open my $fh, '<', $filename or die "Cannot open $filename: $!";
-            $content = do { local $/; <$fh> };
-            close $fh or die "Cannot close $filename: $!";
-
-            $content =~ s/^.*\n__DATA__\n/\n/s; # for win32
-            $content =~ s/\n__END__\n.*$/\n/s;
-        }
- 
-        my @data = split /^@@\s+(.+?)\s*\r?\n/m, $content;
-        shift @data; # trailing whitespaces
- 
-        my $all = {};
-        while (@data) {
-            my ($name, $content) = splice @data, 0, 2;
-            $all->{$name} = $content;
-        }
- 
-        return $all;
     }
+
+    my $all = $self->{all};
+
+    # use cache
+    return $all if $all;
+
+    # read DATA section from current script
+    my $data = $self->_slurp($self->{r}->filename);
+
+    # copied from Data::Section::Simple
+    $data =~ s/^.*\n__DATA__\n/\n/s; # for win32
+    $data =~ s/\n__END__\n.*$/\n/s;
+    my @data = split /^@@\s+(.+?)\s*\r?\n/m, $data;
+    shift @data; # trailing whitespaces
+
+    while (@data) {
+        my ($name, $content) = splice @data, 0, 2;
+        $all->{$name} = $content;
+    }
+
+    $self->{all} = $all;
+    return $all;
+}
+
+sub _slurp {
+    my $self = shift;
+    my $filename = shift;
+
+    open my $fh, '<', $filename or die "Cannot open $filename: $!";
+    my $content = do { local $/; <$fh> };
+    close $fh or die "Cannot close $filename: $!";
+
+    return $content;
 }
  
 1;
